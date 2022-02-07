@@ -56,29 +56,58 @@ const directions = [
 //     )
 //   );
 
-function obtainDirections(step) {
-  return new Promise((resolvedCb, rejectedCb) => {
-    setTimeout(() => {
-      console.log(directions[step]);
-      if (!directions[step]) rejectedCb("Instructions not found.");
-      else resolvedCb();
-    }, 3 * 1000);
-  });
-}
+// function obtainDirections(step) {
+//   return new Promise((resolvedCb, rejectedCb) => {
+//     setTimeout(() => {
+//       console.log(directions[step]);
+//       if (!directions[step])
+//         rejectedCb(`Directions not found for step ${step}.`);
+//       else resolvedCb();
+//     }, 3 * 1000);
+//   });
+// }
 
-obtainDirections(0)
-  .then(() => obtainDirections(1))
-  .then(() => obtainDirections(2))
-  .then(() => obtainDirections(3))
-  .then(() => obtainDirections(1000));
+// obtainDirections(0)
+//   .then(() => obtainDirections(1))
+//   .then(() => obtainDirections(2))
+//   .then(() => obtainDirections(3))
+//   .then(() => obtainDirections(1000))
+//   .catch((error) => {
+//     console.log("There was an error: " + error);
+//   });
+
+// const magicButton = document.getElementById("magic-button");
+
+// magicButton.onclick = handleMagicClick;
+
+// function handleMagicClick(event) {
+//   return obtainDirections(0)
+//     .then(() => obtainDirections(1))
+//     .then(() => obtainDirections(2))
+//     .then(() => obtainDirections(3));
+// }
+
+function onclickHandler() {
+    return new Promise(
+        (resolveCb, rejectCb) => {
+            const randomResult = Math.random() > 0.2; // ? true : false;
+
+    if (randomResult) {
+      resolveCb(" You have another to do!");
+    } else {
+      rejectCb("You ran out of todos");
+    }
+  })
+    .then((newTodo) => {
+      const todoList = document.getElementById("todo-list");
+      todoList.innerHTML += `<div> ${newTodo}</div>`;
+    })
+    .catch((err) => {
+      const todoList = document.getElementById("todo-list");
+      todoList.innerHTML = `<h3> ${err}</h3>`;
+    });
+}
 
 const magicButton = document.getElementById("magic-button");
 
-magicButton.onclick = handleMagicClick;
-
-function handleMagicClick(event) {
-  return obtainDirections(0)
-    .then(() => obtainDirections(1))
-    .then(() => obtainDirections(2))
-    .then(() => obtainDirections(3));
-}
+magicButton.onclick = () => onclickHandler();
